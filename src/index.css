@@ -23,8 +23,8 @@
     transform: rotate(270deg);
   }
 }
+
 .path {
-  stroke: black;
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
   transform-origin: center;

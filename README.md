@@ -1,34 +1,44 @@
-## Rules
+## Changes Made
 
-- add/remove/modify existing code to achieve the end result (some code needs a refactor)
-- don't install additional packages
-- you need to use `zustand`, but it's up to you to decide what state should be global
-- write the code like it's a real feature
+### General CSS Change
 
-### Cards
+I changed the width values in the `Entrypoint` component to ensure that the card
+with a description has the same width as the card without a description.
 
-- add expand/collapse functionality
-- make sure the "Delete" button works
-- add animations
+### Zustand Store
 
-### Deleted Cards
+I decided that the Zustand store should store both visible and deleted items. This allows
+for easy integration of these two states and simplifies the introduction of a "revert" functionality.
 
-- display the number of deleted cards
-- reveal deleted cards after user clicks the "Reveal" button - deleted card variant shouldn't contain the description
-- write the code, so in the future you will be able to add "revert" functionality
+It also stores all items, not just the visible ones. This means that the `DeletedListItem`
+type doesn't need a `description` field, and the description can be easily displayed.
 
-### Behavior
+The `isRevealed` state allows displaying the description of each item in the list,
+even if it was added to the list after the state change.
 
-- cards by default should be collapsed
-- expanded/deleted cards' state needs to be persisted after "refreshing" (regardless of isVisible property)
-- "refresh" functionality needs to be implemented using `react-query`
+### Created ToggleButton Component
 
-### Miscellaneous
+The component is designed to maintain the same style despite different mechanics.
+This makes the component easily reusable.
 
-- add a "Refresh" button (just like the "Reveal" button)
-- create generic `<ToggleButton />`
+### Changed Spinner Component
 
-### Additional
+I added `stroke` and `size` props to it. This makes the component easy to reuse, e.g.,
+in a button. Also, each prop has a default value, so it’s not necessary to specify it in general use.
 
-You may leave a message explaining your coding choices, but it's not necessary.
-Testing framework isn't installed, so instead just explain whether you think it's a good or bad idea to write tests for this feature or how to approach it.
+### Refresh Button
+
+The Refresh button uses the `refreshHandler` function, which calls `listQuery.refetch()`
+to easily fetch new results for the list. This ensures that the state of `deletedCards`
+doesn't change. Also, if an item in the new list has its `isVisible` property set to true,
+its description remains visible.
+
+### Change in `icons.tsx`
+
+The `ChevronUpIcon` component had a `fill-rule` attribute that displayed a warning in the console.
+I changed the attribute name to `fillRule`.
+
+### Created DeletedCards Component
+
+Since VisibleCards and DeletedCards have different mechanics, I thought it would be better to create
+a separate component rather than adding multiple `if` conditions to adjust the logic to the needs.
